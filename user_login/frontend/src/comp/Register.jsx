@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
+import Notify from '../Toasts';
 // import 'react-toastify/dist/react-toastify.css';
 
 function Register() {
 
   const navigate = useNavigate();
 
+  
+  const token = localStorage.getItem('usertoken');
+
+  useEffect(() => {
+    if (token) {
+      navigate('/');
+    }
+  }, []);
 
   const sendData = (formData, method) => {
 
@@ -18,15 +27,16 @@ function Register() {
       .then(res => res.json())
       .then(token => {
         if (!token.message) {
-          sessionStorage.setItem('usertoken', token)
+          localStorage.setItem('usertoken', token)
+          Notify.tSuccess("Sikeres regisztráció!");
           navigate('/');
         } else {
-          alert(token.message);
+          Notify.tError(token.message);
         }
 
 
       })
-      .catch(err => console.log(err));
+      .catch(err => Notify.tError(err));
 
 
   }
@@ -35,7 +45,7 @@ function Register() {
   const onSubmit = (e) => {
     e.preventDefault();
     sendData(FormData, 'POST');
-    navigate('/login');
+    // navigate('/login');
 
   }
 

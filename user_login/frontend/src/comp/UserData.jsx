@@ -6,7 +6,7 @@ function UserData() {
 
     const [UserData, setUserData] = useState(null);
     const navigate = useNavigate();
-    const token = sessionStorage.getItem('usertoken');
+    const token = localStorage.getItem('usertoken');
 
 
     useEffect(() => {
@@ -19,7 +19,13 @@ function UserData() {
                 }
             })
                 .then(res => res.json())
-                .then(data => setUserData(data))
+                .then(data => {
+                    !data.message ?
+                        setUserData(data)
+                        :
+                        Notify.tError("");
+
+                })
                 .catch(err => console.log(err));
         } else {
             navigate('/login');

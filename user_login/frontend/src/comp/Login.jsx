@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import UserContext from './context/UserContext';
@@ -7,6 +7,14 @@ import Notify from '../Toasts';
 function Login() {
 
   const navigate = useNavigate();
+
+  const token = localStorage.getItem('usertoken');
+
+  useEffect(() => {
+    if (token) {
+      navigate('/');
+    }
+  }, []);
 
   const {
     update
@@ -22,7 +30,7 @@ function Login() {
       .then(res => res.json())
       .then(token => {
         if (!token.message) {
-          sessionStorage.setItem('usertoken', token)
+          localStorage.setItem('usertoken', token)
           update();
           // alert(token);
           Notify.tSuccess("Sikeres bejelentkezés!");

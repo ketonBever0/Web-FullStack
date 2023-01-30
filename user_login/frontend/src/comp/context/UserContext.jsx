@@ -17,7 +17,7 @@ export const UserProvider = ({ children }) => {
 
 
     const logout = () => {
-        sessionStorage.removeItem('usertoken');
+        localStorage.removeItem('usertoken');
         update();
         Notify.tSuccess("Kijelentkezve");
     }

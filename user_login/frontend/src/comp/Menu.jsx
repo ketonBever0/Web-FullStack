@@ -7,7 +7,7 @@ function Menu() {
 
     const navigate = useNavigate();
     const { logout } = useContext(UserContext);
-    const token = sessionStorage.getItem('usertoken');
+    const token = localStorage.getItem('usertoken');
 
 
 

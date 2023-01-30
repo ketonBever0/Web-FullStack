@@ -18,7 +18,7 @@ function App() {
 
       <div className='container ml-10'>
         <h1 className='text-3xl font-bold'>User login Frontend</h1>
-        <Header headerText={"Fejléc"} />
+        {/* <Header headerText={"Fejléc"} /> */}
         <Router>
           <Menu />
           <Routes>
