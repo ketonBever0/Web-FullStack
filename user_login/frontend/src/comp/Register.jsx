@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Form, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import Notify from '../Toasts';
+import UserContext from './context/UserContext';
 // import 'react-toastify/dist/react-toastify.css';
 
 function Register() {
 
   const navigate = useNavigate();
 
-  
+  const { RsendData } = useContext(UserContext);
+
   const token = localStorage.getItem('usertoken');
 
   useEffect(() => {
@@ -17,34 +19,12 @@ function Register() {
     }
   }, []);
 
-  const sendData = (formData, method) => {
 
-    fetch('http://localhost:8000/api/user/register', {
-      method: method,
-      headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify(formData)
-    })
-      .then(res => res.json())
-      .then(token => {
-        if (!token.message) {
-          localStorage.setItem('usertoken', token)
-          Notify.tSuccess("Sikeres regisztráció!");
-          navigate('/');
-        } else {
-          Notify.tError(token.message);
-        }
-
-
-      })
-      .catch(err => Notify.tError(err));
-
-
-  }
 
 
   const onSubmit = (e) => {
     e.preventDefault();
-    sendData(FormData, 'POST');
+    RsendData(FormData, 'POST');
     // navigate('/login');
 
   }

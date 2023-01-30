@@ -6,13 +6,13 @@ import UserContext from './context/UserContext';
 function Menu() {
 
     const navigate = useNavigate();
-    const { logout } = useContext(UserContext);
+    const { logout, IsLoggedIn } = useContext(UserContext);
     const token = localStorage.getItem('usertoken');
 
 
 
     const setMenu = () => {
-        if (token) {
+        if (IsLoggedIn) {
             return (
                 <>
                     <li><Link to={'/'}>Főoldal</Link></li>

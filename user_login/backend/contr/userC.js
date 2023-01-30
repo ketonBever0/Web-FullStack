@@ -7,7 +7,7 @@ const User = require('../models/User');
 
 
 const genToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "10s" });
+    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: process.env.TOKEN_LIFETIME });
 }
 
 

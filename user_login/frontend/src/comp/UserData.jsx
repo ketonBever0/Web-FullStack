@@ -23,8 +23,7 @@ function UserData() {
                     !data.message ?
                         setUserData(data)
                         :
-                        Notify.tError("");
-
+                        localStorage.removeItem('usertoken');
                 })
                 .catch(err => console.log(err));
         } else {
@@ -32,6 +31,9 @@ function UserData() {
             // Notify.tError("Be kell jelentkezni");
         }
     }, []);
+
+
+    
 
 
     return (

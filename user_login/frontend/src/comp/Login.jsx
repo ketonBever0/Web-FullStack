@@ -10,50 +10,25 @@ function Login() {
 
   const token = localStorage.getItem('usertoken');
 
-  useEffect(() => {
-    if (token) {
-      navigate('/');
-    }
-  }, []);
-
   const {
+    LsendData,
+    IsLoggedIn,
     update
   } = useContext(UserContext);
 
-  const sendData = (formData, method) => {
-
-    fetch('http://localhost:8000/api/user/login', {
-      method: method,
-      headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify(formData)
-    })
-      .then(res => res.json())
-      .then(token => {
-        if (!token.message) {
-          localStorage.setItem('usertoken', token)
-          update();
-          // alert(token);
-          Notify.tSuccess("Sikeres bejelentkezés!");
-          navigate('/');
-        } else {
-          Notify.tError(token.message);
-        }
+  useEffect(() => {
+    if (IsLoggedIn) {
+      navigate('/');
+    }
+  });
 
 
-      })
-      .catch(err => console.log(err));
 
 
-  }
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    try {
-      sendData(FormData, 'POST');
-    } catch {
-      console.log("Nem sikerült!");
-    }
+    LsendData(FormData, 'POST');
 
   }
 
