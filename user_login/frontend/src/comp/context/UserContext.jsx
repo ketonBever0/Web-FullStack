@@ -29,7 +29,8 @@ export const UserProvider = ({ children }) => {
 
     useEffect(() => {
         if (token) {
-            if (token.message) {
+            if (token.message || token == null) {
+                setIsLoggedIn(false);
                 logout();
             }
         }

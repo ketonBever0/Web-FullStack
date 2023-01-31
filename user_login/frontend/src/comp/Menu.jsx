@@ -7,12 +7,16 @@ function Menu() {
 
     const navigate = useNavigate();
     const { logout, IsLoggedIn } = useContext(UserContext);
-    const token = localStorage.getItem('usertoken');
+    let token = null;
+
+    useEffect(() => {
+        token = localStorage.getItem('usertoken');
+    })
 
 
 
     const setMenu = () => {
-        if (IsLoggedIn) {
+        if (IsLoggedIn || token) {
             return (
                 <>
                     <li><Link to={'/'}>Főoldal</Link></li>

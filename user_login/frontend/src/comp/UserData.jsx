@@ -1,12 +1,17 @@
 import { useNavigate } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Notify from '../Toasts';
+import UserContext from './context/UserContext';
 
 function UserData() {
 
     const [UserData, setUserData] = useState(null);
     const navigate = useNavigate();
+
     const token = localStorage.getItem('usertoken');
+
+    const { logout } = useContext(UserContext);
+
 
 
     useEffect(() => {
@@ -25,15 +30,20 @@ function UserData() {
                         :
                         localStorage.removeItem('usertoken');
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    console.log(err);
+                    logout();
+                    navigate('/');
+                });
         } else {
+            logout();
+            // Notify.tError("Jelentkezzen be");
             navigate('/login');
-            // Notify.tError("Be kell jelentkezni");
         }
     }, []);
 
 
-    
+
 
 
     return (
