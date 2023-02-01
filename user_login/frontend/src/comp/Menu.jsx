@@ -2,16 +2,23 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import UserContext from './context/UserContext';
+import Notify from '../Toasts';
 
 function Menu() {
 
     const navigate = useNavigate();
-    const { logout, IsLoggedIn } = useContext(UserContext);
+    const {
+        logout,
+        IsLoggedIn, setIsLoggedIn
+    } = useContext(UserContext);
     let token = null;
 
-    useEffect(() => {
-        token = localStorage.getItem('usertoken');
-    })
+    // useEffect(() => {
+    //     token = localStorage.getItem('usertoken');
+    //     if (!token || token.message) {
+    //         setIsLoggedIn(false);
+    //     }
+    // })
 
 
 
@@ -21,7 +28,7 @@ function Menu() {
                 <>
                     <li><Link to={'/'}>Főoldal</Link></li>
                     <li><Link to={'/userdata'}>Felhasználó adatai</Link></li>
-                    <li><a onClick={() => { logout(); navigate('/') }}>Kijelentkezés</a></li>
+                    <li><a onClick={() => { Notify.tSuccess("Kijelentkezve!"); logout(); navigate('/'); }}>Kijelentkezés</a></li>
                 </>
             )
         } else {

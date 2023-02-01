@@ -134,7 +134,7 @@ export const UserProvider = ({ children }) => {
         RsendData,
         LsendData,
 
-        IsLoggedIn
+        IsLoggedIn, setIsLoggedIn
 
     }}>{children}</UserContext.Provider>
 };
