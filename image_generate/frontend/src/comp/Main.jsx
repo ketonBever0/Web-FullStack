@@ -2,7 +2,7 @@ import React from 'react'
 
 function Main() {
     return (
-        <div>Főoldal</div>
+        <div className='mt-10 text-5xl'>Main Page</div>
     )
 }
 

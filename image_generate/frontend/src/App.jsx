@@ -1,18 +1,21 @@
 // import './App.css'
 import { Toaster } from 'react-hot-toast';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ImageGenerate from './comp/ImageGenerate';
-import Main from './comp/Main';
 
+import { OpenAI_Provider } from './comp/context/OpenAI_C';
 
-import NavBar from "./comp/NavBar"
 import Title from "./comp/Title"
+import NavBar from "./comp/NavBar"
+import Main from './comp/Main';
+import ImageGenerate from './comp/ImageGenerate';
 
 function App() {
 
 
   return (
-    <div className='bg-base-100' data-theme="retro">
+    <OpenAI_Provider>
+    
+    <div className='bg-neutral text-neutral-content' data-theme="wireframe">
       <div className='container px-auto px-10 min-h-screen'>
         <Title />
         <Router>
@@ -27,6 +30,8 @@ function App() {
         <Toaster />
       </div>
     </div>
+
+    </OpenAI_Provider>
   )
 }
 
