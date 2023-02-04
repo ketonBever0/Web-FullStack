@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { ClipLoader } from 'react-spinners';
+import Notify from './AllUse/Toasts';
 import OpenAI_Context from './context/OpenAI_C';
 
 
@@ -31,6 +32,7 @@ function ImageGenerate() {
     e.preventDefault();
     setIMGgenData(undefined);
     await IMGgen(FormData);
+    Notify.tSuccess("Success!")
   }
 
 
@@ -73,74 +75,13 @@ function ImageGenerate() {
         </div>
 
         <div className='mt-20 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8 content-center'>
-          {IsLoading && <ClipLoader color="#36d7b7" />}
-          {/* 1 */}
-          <div>
-            {/* {IsLoading && <ClipLoader color="#36d7b7" />} */}
-            {IMGgenData && IMGgenData.img0 && <img src={IMGgenData.img0} />}
-          </div>
+          {IsLoading && <ClipLoader color="#36d7b7" size={150} />}
+          {IMGgenData && IMGgenData.map((image, index) => (<img src={image.url} key={index} />))}
 
-          {/* 2 */}
-          <div>
-            {/* {IsLoading && <ClipLoader color="#36d7b7" />} */}
-            {IMGgenData && IMGgenData.img1 && <img src={IMGgenData.img1} />}
-          </div>
-
-          {/* 3 */}
-          <div>
-            {/* {IsLoading && <ClipLoader color="#36d7b7" />} */}
-            {IMGgenData && IMGgenData.img2 && <img src={IMGgenData.img2} />}
-          </div>
-
-          {/* 4 */}
-          <div>
-            {/* {IsLoading && <ClipLoader color="#36d7b7" />} */}
-            {IMGgenData && IMGgenData.img3 && <img src={IMGgenData.img3} />}
-          </div>
-
-          {/* 5 */}
-          <div>
-            {/* {IsLoading && <ClipLoader color="#36d7b7" />} */}
-            {IMGgenData && IMGgenData.img4 && <img src={IMGgenData.img4} />}
-          </div>
-
-          {/* 6 */}
-          <div>
-            {/* {IsLoading && <ClipLoader color="#36d7b7" />} */}
-            {IMGgenData && IMGgenData.img5 && <img src={IMGgenData.img5} />}
-          </div>
-
-          {/* 7 */}
-          <div>
-            {/* {IsLoading && <ClipLoader color="#36d7b7" />} */}
-            {IMGgenData && IMGgenData.img6 && <img src={IMGgenData.img6} />}
-          </div>
-
-          {/* 8 */}
-          <div>
-            {/* {IsLoading && <ClipLoader color="#36d7b7" />} */}
-            {IMGgenData && IMGgenData.img7 && <img src={IMGgenData.img7} />}
-          </div>
-
-          {/* 9 */}
-          <div>
-            {/* {IsLoading && <ClipLoader color="#36d7b7" />} */}
-            {IMGgenData && IMGgenData.img8 && <img src={IMGgenData.img8} />}
-          </div>
-
-          {/* 10 */}
-          <div>
-            {/* {IsLoading && <ClipLoader color="#36d7b7" />} */}
-            {IMGgenData && IMGgenData.img9 && <img src={IMGgenData.img9} />}
-          </div>
 
         </div>
-      </form >
-
-
-
-
-    </div >
+      </form>
+    </div>
   )
 }
 
