@@ -30,9 +30,20 @@ function ImageGenerate() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setIMGgenData(undefined);
-    await IMGgen(FormData);
-    Notify.tSuccess("Success!")
+    const { prompt, n, size } = FormData;
+    if (prompt != null && n != null && size != null) {
+      if (n < 1 || n > 10) {
+        Notify.tError("Quantity number must be between 1 and 10.");
+      }
+      else {
+        setIMGgenData(undefined);
+        await IMGgen(FormData);
+        Notify.tSuccess("Success!");
+      }
+    }
+    else {
+      Notify.tError("You didn't provide all required data!");
+    }
   }
 
 
@@ -45,7 +56,7 @@ function ImageGenerate() {
 
         <div className="form-control max-w-xs mt-5">
           <span className="label-text">What do you want to see?</span>
-          <input type="text" required placeholder="Type here" className="input input-bordered input-primary w-full max-w-xs"
+          <input type="text" placeholder="Type here" required className="input input-bordered input-primary w-full max-w-xs"
             onChange={handleChange} id='prompt' name='prompt' value={FormData.prompt} />
 
           <div className="form-control w-full max-w-xs mt-4">
@@ -63,7 +74,7 @@ function ImageGenerate() {
             </label>
             <select className="select select-primary w-full max-w-xs" required
               onChange={handleChange} id='size' name='size' value={FormData.size}>
-              <option value={undefined} selected disabled>Choose one...</option>
+              <option selected disabled>Choose one...</option>
               <option value={"256x256"}>256x256</option>
               <option value={"512x512"}>512x512</option>
               <option value={"1024x1024"}>1024x1024</option>
