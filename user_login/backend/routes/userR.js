@@ -7,8 +7,12 @@ const userC = require('../contr/userC');
 r.post('/register', userC.register);
 r.post('/login', userC.login);
 r.get('/', protect, userC.getUser);
-r.get('/adatmodositas', protect, userC.modifyUser)
+r.get('/adatmodositas', protect, userC.modifyUser);
 
+
+//  Testing
+
+r.post('/testing/checkuser',userC.checkUser);
 
 
 

@@ -89,11 +89,20 @@ const modifyUser = asyncHandler(async (req, res) => {
 })
 
 
+//  Testing
+
+const checkUser = async (req, res) => {
+    const user = await User.findOne({ username: req.body.username });
+    res.json(user);
+}
 
 
 module.exports = {
     register,
     login,
     getUser,
-    modifyUser
+    modifyUser,
+
+    //  Testing
+    checkUser
 }
