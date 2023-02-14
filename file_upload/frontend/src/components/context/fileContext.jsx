@@ -11,7 +11,7 @@ export const FileProvider = ({ children }) => {
 
     const [files, setFiles] = useState(null);
 
-    const [inputFile, setInputFile] = useState(null);
+    const [inputFile, setInputFile] = useState({ file: null });
 
 
     const update = () => setRefresh(prev => !prev);
@@ -25,12 +25,28 @@ export const FileProvider = ({ children }) => {
         setIsLoading(false);
     }
 
+    const uploadFile = async (file) => {
+        await fetch('http://localhost:8000/api/files', {
+            method: 'POST',
+            body: file,
+            headers: {
+                'Content-type': 'multipart/form-data'
+            }
+        })
+            .then(res => res.json())
+            .then(data => setFiles(data))
+            .catch(err => console.log(err));
+
+    }
+
+
 
     return <FileContext.Provider value={{
         refresh, update,
         isLoading,
-        fetchFiles,
-        files, setFiles
+        fetchFiles, uploadFile,
+        files, setFiles,
+        inputFile, setInputFile
     }}>{children}</FileContext.Provider>
 }
 

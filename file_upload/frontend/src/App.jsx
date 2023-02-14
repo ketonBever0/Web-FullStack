@@ -1,20 +1,22 @@
 // import { useState } from 'react'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import FileContext from './components/context/fileContext';
+import { FileProvider } from './components/context/fileContext';
+import Form from './components/Form';
 
 function App() {
 
   return (
     <div>
-      <FileContext>
+      <FileProvider>
 
-        <div class="mb-3">
-          <label for="formFile" className="form-label">Default file input example</label>
-          <input className="form-control" type="file" id="formFile" />
+        <div className="container-fluid">
+          <Form />
+
+
         </div>
 
-      </FileContext>
+      </FileProvider>
     </div>
   )
 }

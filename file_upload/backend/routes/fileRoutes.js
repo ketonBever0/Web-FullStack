@@ -3,7 +3,9 @@ const fileRouter = express.Router();
 const c = require('../controllers/fileController');
 
 
-fileRouter.get('/files', c.fileController);
+fileRouter.get('/files', c.getFiles);
+fileRouter.post('/files', c.uploadFile);
+// fileRouter.post('/testfiles', c.testUpload);
 
 
 module.exports = fileRouter;

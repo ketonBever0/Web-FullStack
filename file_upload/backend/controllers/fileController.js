@@ -11,8 +11,9 @@ const db = mysql.createConnection({
 const getFiles = (req, res) => {
     db.query(
         `
-            SELECT gepjarmu_tipus FROM arkategoriak
-            ORDER BY gepjarmu_tipus
+            SELECT path
+            FROM files
+            
         `,
         [],
         (err, rows) => {
@@ -22,18 +23,34 @@ const getFiles = (req, res) => {
     )
 }
 
+
 const uploadFile = (req, res) => {
-    db.query(
-        `
-            INSERT INTO files
-            SET path=?
-        `,
-        [req.body.path],
-        (err, rows) => {
-            if (err) res.status(400).send(err);
-            res.json(rows);
+    console.log(req.files);
+    // console.log(req.files);
+
+    const file = req.files.file
+    const fileName = Date.now() + "_" + req.files.file.name
+
+    let filePath = __dirname + "\\..\\uploads\\" + fileName
+    console.log(filePath);
+    file.mv(filePath, (err) => {
+        if (err) res.send(err)
+        else {
+            db.query(
+                `
+                    INSERT INTO files
+                    SET path=?
+                `,
+                [filePath],
+                (err, rows) => {
+                    if (err) return res.status(400).send(err);
+                    else return res.status(200).json(rows);
+                }
+            )
         }
-    )
+
+    })
+
 }
 
 
