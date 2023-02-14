@@ -12,21 +12,16 @@ function Form() {
     } = useContext(FileContext);
 
     const handleChange = (e) => {
-        setInputFile({
-            ...inputFile,
-            [e.target.name]: e.target.files[0]
-        });
-        console.log(e.target.files);
-        console.log(inputFile.file);
-        // setFormData({
-        //     ...formData,
-        //     [event.target.id]: event.target.value,
+        setInputFile(e.target.files[0]);
     }
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        if (inputFile == null) return
-        await uploadFile(inputFile.file);
+        if (!inputFile) return
+
+        console.log("Feltöltés próba");
+
+        await uploadFile(inputFile);
     }
 
     return (

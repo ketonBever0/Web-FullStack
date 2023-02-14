@@ -3,6 +3,7 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FileProvider } from './components/context/fileContext';
 import Form from './components/Form';
+import FileContainer from './components/FileContainer';
 
 function App() {
 
@@ -12,7 +13,7 @@ function App() {
 
         <div className="container-fluid">
           <Form />
-
+          <FileContainer />
 
         </div>
 

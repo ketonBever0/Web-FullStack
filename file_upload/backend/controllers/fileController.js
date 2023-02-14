@@ -25,7 +25,7 @@ const getFiles = (req, res) => {
 
 
 const uploadFile = (req, res) => {
-    console.log(req.files);
+    console.log(req.files.file);
     // console.log(req.files);
 
     const file = req.files.file
@@ -34,7 +34,7 @@ const uploadFile = (req, res) => {
     let filePath = __dirname + "\\..\\uploads\\" + fileName
     console.log(filePath);
     file.mv(filePath, (err) => {
-        if (err) res.send(err)
+        if (err) console.log(err)
         else {
             db.query(
                 `

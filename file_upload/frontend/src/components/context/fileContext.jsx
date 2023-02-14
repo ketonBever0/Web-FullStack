@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState, useEffect, createContext } from 'react';
 
 
@@ -11,7 +12,7 @@ export const FileProvider = ({ children }) => {
 
     const [files, setFiles] = useState(null);
 
-    const [inputFile, setInputFile] = useState({ file: null });
+    const [inputFile, setInputFile] = useState(null);
 
 
     const update = () => setRefresh(prev => !prev);
@@ -26,18 +27,40 @@ export const FileProvider = ({ children }) => {
     }
 
     const uploadFile = async (file) => {
-        await fetch('http://localhost:8000/api/files', {
-            method: 'POST',
-            body: file,
+        // console.log(file);
+
+        const fileForm = new FormData();
+        fileForm.append("file", file);
+        fileForm.append("fileName", file.name);
+
+        // console.log(fileForm);
+
+        await axios.post('http://localhost:8000/api/files', fileForm, {
             headers: {
-                'Content-type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data'
             }
-        })
-            .then(res => res.json())
-            .then(data => setFiles(data))
-            .catch(err => console.log(err));
+        }).catch(err => console.log(err))
+
+
+        // await fetch('http://localhost:8000/api/files', {
+        //     method: 'POST',
+        //     body: {
+        //         files: {
+        //             file: file
+        //         }
+        //     },
+        //     headers: {
+        //         'content-type': file.type,
+        //         'content-length': `${file.size}`
+        //     }
+        // })
+        //     .then(res => res.json())
+        //     .then(data => setFiles(data))
+        //     .catch(err => console.log(err));
 
     }
+
+       
 
 
 
