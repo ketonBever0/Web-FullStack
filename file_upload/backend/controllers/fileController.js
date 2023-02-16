@@ -1,3 +1,4 @@
+var fs = require('fs');
 const mysql = require('mysql');
 const db = mysql.createConnection({
     "host": "localhost",
@@ -27,6 +28,11 @@ const getFiles = (req, res) => {
 const uploadFile = (req, res) => {
     console.log(req.files.file);
     // console.log(req.files);
+
+    var dir = __dirname+"\\..\\uploads\\";
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+    }
 
     const file = req.files.file
     const fileName = Date.now() + "_" + req.files.file.name
