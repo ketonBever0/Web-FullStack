@@ -26,7 +26,7 @@ function Form() {
     return (
         <div className='mx-auto my-5 p-5'>
             <form>
-                <label htmlFor="formFile" className="fs-2 mx-auto mb-4">Tölts fel képeket</label>
+                <label htmlFor="formFile" className="fs-2 mb-4">Tölts fel képeket</label>
                 <input className="form-control" type="file" id="formFile" name='file' onChange={handleChange} accept="image/png, image/jpeg, image/gif" />
                 <div className="d-flex justify-content-md-between flex-column-reverse flex-md-row">
                     <div>

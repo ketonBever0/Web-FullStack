@@ -20,9 +20,9 @@ function FileContainer() {
     return (
         <div className='row'>
             {isLoading ?
-                <BeatLoader color="#36d7b7" />
+                <div className="col d-flex justify-content-center my-4"><BeatLoader color="#36d7b7" /></div>
                 :
-                (files && files.slice(0).reverse().map((file, index) => <File path={file.path} key={index} />))}
+                (files && files.length>0 && files.slice(0).reverse().map((file, index) => <File path={file.path} key={index} />))}
         </div>
     )
 }

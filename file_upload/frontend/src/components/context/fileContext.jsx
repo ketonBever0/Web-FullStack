@@ -25,7 +25,7 @@ export const FileProvider = ({ children }) => {
         //     .then(data => setFiles(data))
         //     .catch(err => console.log(err));
 
-        axios.get('http://127.0.0.1:8000/api/files')
+        await axios.get('http://127.0.0.1:8000/api/files')
             .then(res => setFiles(res.data));
         setIsLoading(false);
     }
@@ -68,8 +68,8 @@ export const FileProvider = ({ children }) => {
 
     }
 
-    const deleteFile = (path) => {
-        axios.delete(`http://127.0.0.1:8000/api/files/delete`, { data: { path: path } })
+    const deleteFile = async (path) => {
+        await axios.delete(`http://127.0.0.1:8000/api/files/delete`, { data: { path: path } })
             .then(res => Notify.tSuccess(res.data.message));
         update();
     }
