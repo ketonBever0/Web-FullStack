@@ -20,7 +20,7 @@ const fetchFile = (req, res) => {
         [req.params.path],
         (err, rows) => {
             if (err) res.status(400).send(err);
-            res.json(rows);
+            res.sendFile(`${appDir}/uploads/${rows[0].path}`);
         }
     )
 }
@@ -31,9 +31,9 @@ const getFiles = (req, res) => {
     db.query(
         `
             SELECT *
-            FROM files
-            
-        `,
+                FROM files
+
+                `,
         [],
         (err, rows) => {
             if (err) res.status(400).send(err);
@@ -66,7 +66,7 @@ const uploadFile = (req, res) => {
             db.query(
                 `
                     INSERT INTO files
-                    SET path=?
+                    SET path =?
                 `,
                 [fileName],
                 (err, rows) => {
@@ -81,9 +81,39 @@ const uploadFile = (req, res) => {
 }
 
 
+const deleteFile = (req, res) => {
+    var dir = appDir + "/uploads/";
+
+    const file = req.body.path;
+    console.log(req.body);
+
+    file && fs.unlink(dir + file, (err) => {
+        if (err) {
+            return res.status(400).json({ message: "Hiba!" });
+        } else {
+            db.query(`
+            DELETE FROM files
+            WHERE path=?
+            `,
+                [file],
+                (err, rows) => {
+                    if (err) return res.status(400).send(err);
+                    else return res.status(200).json({ message: "Törölve!", affectedCount: rows.affectedCount });
+                }
+            )
+        }
+    })
+
+    // return res.status(400).json({ message: "Hiba!" });
+
+
+}
+
+
 
 module.exports = {
     fetchFile,
     getFiles,
-    uploadFile
+    uploadFile,
+    deleteFile
 }
