@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import './App.css'
 import { UserProvider } from './comp/context/UserContext'
+import FileUpload from './comp/FileUpload'
 import Header from './comp/Header'
 import Login from './comp/Login'
 import Main from './comp/Main'
@@ -27,6 +28,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/userdata' element={<UserData />} />
+            <Route path='/fileupload' element={<FileUpload />} />
           </Routes>
         </Router>
       </div>

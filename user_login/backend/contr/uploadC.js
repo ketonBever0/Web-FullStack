@@ -5,8 +5,17 @@ const appDir = dirname(require.main.filename);
 const Image = require('../models/Image');
 
 
+const getFiles = asyncHandler(async (req, res) => {
+    const user = req.user;
+    const imageUserId = await Image.find({ userid: user._id }) //.filter(x => x.userid == user._id)
+
+    res.json(imageUserId);
+
+})
+
+
 const fileUpload = (asyncHandler(async (req, res) => {
-    console.log(appDir);
+    // console.log(appDir);
     if (req.files) {
 
         var path = appDir + "/files/";
@@ -45,5 +54,6 @@ const fileUpload = (asyncHandler(async (req, res) => {
 
 
 module.exports = {
+    getFiles,
     fileUpload
 }

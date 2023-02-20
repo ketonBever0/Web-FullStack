@@ -13,7 +13,6 @@ function UserData() {
     const { logout } = useContext(UserContext);
 
 
-
     useEffect(() => {
         if (token) {
             fetch('http://localhost:8000/api/user', {
@@ -44,15 +43,44 @@ function UserData() {
 
 
 
+    const [userImages, setUserImages] = useState([]);
+
+
+    useEffect(() => {
+        fetch('http://localhost:8000/api/files/get', {
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => setUserImages(data))
+            .catch(err => console.log(err));
+        // console.log(userImages);
+    }, [])
+
 
 
     return (
         <div>
-            <p>{UserData?._id}</p>
-            <p>{UserData?.username}</p>
-            <p>{UserData?.email}</p>
-            <p>{UserData?.age}</p>
+            <div>
+                <p>{UserData?._id}</p>
+                <p>{UserData?.username}</p>
+                <p>{UserData?.email}</p>
+                <p>{UserData?.age}</p>
+            </div>
+            <div className='grid grid-flow-row auto-rows-max'>
+                {userImages && userImages.length > 0 && userImages.map((image, index) => (
+                    <div className="card w-96 bg-base-100 shadow-xl">
+                        <div className="card-body">
+                            <img key={index} src={encodeURI(`http://localhost:8000/files/${UserData?.username}/${image.imageName}`)} />
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
+
+
     )
 }
 

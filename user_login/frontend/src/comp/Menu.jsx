@@ -28,6 +28,7 @@ function Menu() {
                 <>
                     <li><Link to={'/'}>Főoldal</Link></li>
                     <li><Link to={'/userdata'}>Felhasználó adatai</Link></li>
+                    <li><Link to={'/fileupload'}>Fájl feltöltés</Link></li>
                     <li><a onClick={() => { logout(); navigate('/'); }}>Kijelentkezés</a></li>
                 </>
             )
