@@ -28,7 +28,7 @@ function Menu() {
                 <>
                     <li><Link to={'/'}>Főoldal</Link></li>
                     <li><Link to={'/userdata'}>Felhasználó adatai</Link></li>
-                    <li><a onClick={() => { Notify.tSuccess("Kijelentkezve!"); logout(); navigate('/'); }}>Kijelentkezés</a></li>
+                    <li><a onClick={() => { logout(); navigate('/'); }}>Kijelentkezés</a></li>
                 </>
             )
         } else {

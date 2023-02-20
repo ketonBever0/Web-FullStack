@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const fs = require('fs');
 const { dirname } = require('path');
 const appDir = dirname(require.main.filename);
+const Image = require('../models/Image');
 
 
 const fileUpload = (asyncHandler(async (req, res) => {
@@ -14,7 +15,7 @@ const fileUpload = (asyncHandler(async (req, res) => {
             fs.mkdirSync(path, { recursive: true });
         }
 
-        console.log(req.user.username + " feltöltött");
+        // console.log(req.user.username + " feltöltött");
 
 
         for (prop in req.files) {
@@ -25,10 +26,19 @@ const fileUpload = (asyncHandler(async (req, res) => {
             }
             // console.log(userPath);
             fs.writeFile(userPath + req.files[prop].name, req.files[prop].data, err => { err && console.log(err) });
+            try {
+                const newImg = await Image.create({
+                    userid: req.user._id,
+                    imageName: req.files[prop].name
+                })
+            } catch (err) {
+                throw new Error(`Már van ${req.files[prop].name} nevű fájl!`)
+            }
         }
 
     }
-    res.send("<h2>Feltöltés</h2>")
+    // res.send("<h2>Feltöltés</h2>")
+    res.json({ message: "Feltöltés kész!" });
 })
 );
 

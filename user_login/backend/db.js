@@ -4,10 +4,11 @@ mongoose.set('strictQuery', false);
 const connect = () => {
     mongoose.connect(process.env.CONNECT,
         (e) => {
-            e?
-            console.log(e)
-            :
-            console.log("Connected!");
+            if (e) {
+                console.log(e)
+            } else {
+                console.log("Connected!");
+            }
         });
 }
 

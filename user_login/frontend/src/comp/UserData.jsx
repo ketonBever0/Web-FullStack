@@ -48,6 +48,7 @@ function UserData() {
 
     return (
         <div>
+            <p>{UserData?._id}</p>
             <p>{UserData?.username}</p>
             <p>{UserData?.email}</p>
             <p>{UserData?.age}</p>

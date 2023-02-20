@@ -21,7 +21,7 @@ export const UserProvider = ({ children }) => {
         localStorage.removeItem('usertoken');
         update();
         setIsLoggedIn(false);
-        Notify.tSuccess("Kijelentkezve");
+        Notify.tSuccess("Kijelentkezve!");
     }
 
     const token = localStorage.getItem('usertoken');
