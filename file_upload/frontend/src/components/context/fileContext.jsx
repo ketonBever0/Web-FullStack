@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect, createContext } from 'react';
+import Notify from '../../allUse/Toasts';
 
 
 const FileContext = createContext();
@@ -19,10 +20,13 @@ export const FileProvider = ({ children }) => {
 
     const fetchFiles = async () => {
         setIsLoading(true);
-        await fetch('http://localhost:8000/api/files')
-            .then(res => res.json())
-            .then(data => setFiles(data))
-            .catch(err => console.log(err));
+        // fetch('http://localhost:8000/api/files')
+        //     .then(res => res.json())
+        //     .then(data => setFiles(data))
+        //     .catch(err => console.log(err));
+
+        await axios.get('http://127.0.0.1:8000/api/files')
+            .then(res => setFiles(res.data));
         setIsLoading(false);
     }
 
@@ -39,7 +43,9 @@ export const FileProvider = ({ children }) => {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        }).catch(err => console.log(err))
+        })
+            .then(Notify.tSuccess("Feltöltve!"))
+            .catch(err => console.log(err));
 
 
         // await fetch('http://localhost:8000/api/files', {
@@ -58,6 +64,14 @@ export const FileProvider = ({ children }) => {
         //     .then(data => setFiles(data))
         //     .catch(err => console.log(err));
 
+        update();
+
+    }
+
+    const deleteFile = async (path) => {
+        await axios.delete(`http://127.0.0.1:8000/api/files/delete`, { data: { path: path } })
+            .then(res => Notify.tSuccess(res.data.message));
+        update();
     }
 
 
@@ -67,7 +81,7 @@ export const FileProvider = ({ children }) => {
     return <FileContext.Provider value={{
         refresh, update,
         isLoading,
-        fetchFiles, uploadFile,
+        fetchFiles, uploadFile, deleteFile,
         files, setFiles,
         inputFile, setInputFile
     }}>{children}</FileContext.Provider>
