@@ -5,14 +5,6 @@ const appDir = dirname(require.main.filename);
 const Image = require('../models/Image');
 
 
-const getFiles = asyncHandler(async (req, res) => {
-    const user = req.user;
-    const imageUserId = await Image.find({ userid: user._id }) //.filter(x => x.userid == user._id)
-
-    res.json(imageUserId);
-
-})
-
 
 const fileUpload = (asyncHandler(async (req, res) => {
     // console.log(appDir);
@@ -36,7 +28,7 @@ const fileUpload = (asyncHandler(async (req, res) => {
             // console.log(userPath);
             fs.writeFile(userPath + req.files[prop].name, req.files[prop].data, err => { err && console.log(err) });
             try {
-                const newImg = await Image.create({
+                await Image.create({
                     userid: req.user._id,
                     imageName: req.files[prop].name
                 })
@@ -52,8 +44,17 @@ const fileUpload = (asyncHandler(async (req, res) => {
 );
 
 
+const getFiles = asyncHandler(async (req, res) => {
+    const user = req.user;
+    const imageUserId = await Image.find({ userid: user._id }) //.filter(x => x.userid == user._id)
+
+    res.json(imageUserId);
+
+})
+
+
 
 module.exports = {
-    getFiles,
-    fileUpload
+    fileUpload,
+    getFiles
 }

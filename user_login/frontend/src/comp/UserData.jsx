@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect, useContext } from 'react';
 import Notify from '../Toasts';
 import UserContext from './context/UserContext';
+import ReactModal from 'react-modal';
 
 function UserData() {
 
@@ -59,6 +60,28 @@ function UserData() {
         // console.log(userImages);
     }, [])
 
+    const [isOpen, setIsOpen] = useState(false);
+
+    const modalStyle = {
+        overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.75)'
+        },
+        content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: "black",
+            color: "white"
+        },
+    };
+
+
+    const openModal = () => setIsOpen(true);
+    const closeModal = () => setIsOpen(false);
+
 
 
     return (
@@ -69,16 +92,25 @@ function UserData() {
                 <p>{UserData?.email}</p>
                 <p>{UserData?.age}</p>
             </div>
-            <div className='grid grid-flow-row auto-rows-max'>
+            {/* <div className='grid grid-flow-row'> */}
+            <div className='grid grid-flow-col'>
                 {userImages && userImages.length > 0 && userImages.map((image, index) => (
                     <div className="card w-96 bg-base-100 shadow-xl">
+                        <figure><img key={index} src={encodeURI(`http://localhost:8000/files/${UserData?.username}/${image.imageName}`)} /></figure>
                         <div className="card-body">
-                            <img key={index} src={encodeURI(`http://localhost:8000/files/${UserData?.username}/${image.imageName}`)} />
+                            <div className="card-actions justify-end">
+                                <button className="btn btn-primary">Törlés</button>
+                            </div>
                         </div>
                     </div>
                 ))}
             </div>
+            {/* </div> */}
+
+
+
         </div>
+
 
 
     )
