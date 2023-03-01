@@ -55,11 +55,11 @@ const uploadFile = (req, res) => {
 
 
     const file = req.files.file
-    const fileName = Date.now() + "_" + req.files.file.name;
+    const fileName = Date.now() + "_" + req.body.fileName;
 
     var filePath = appDir + "/uploads/";
 
-    // console.log(filePath);
+    console.log(req.body);
     file.mv(filePath + fileName, (err) => {
         if (err) console.log(err)
         else {

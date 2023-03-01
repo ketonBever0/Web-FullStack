@@ -34,10 +34,13 @@ export const FileProvider = ({ children }) => {
         // console.log(file);
 
         const fileForm = new FormData();
+        fileForm.append("message", "Szia")
         fileForm.append("file", file);
         fileForm.append("fileName", file.name);
 
-        // console.log(fileForm);
+        for (var i of fileForm.values()) {
+            console.log(i)
+        }
 
         await axios.post('http://localhost:8000/api/files', fileForm, {
             headers: {
