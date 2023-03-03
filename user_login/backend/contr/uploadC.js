@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const fs = require('fs');
 const { dirname } = require('path');
+const mongoose = require('mongoose');
 const appDir = dirname(require.main.filename);
 const Image = require('../models/Image');
 
@@ -53,8 +54,52 @@ const getFiles = asyncHandler(async (req, res) => {
 })
 
 
+const deleteFile = asyncHandler(async (req, res) => {
+
+    const { imgId } = req.body;
+    console.log(req.user.username);
+
+    console.log(imgId);
+
+    const image = await Image.findById(imgObjectId);
+
+    console.log(image)
+
+    if (!image) throw new Error("A kép nem törölhető!");
+    else {
+
+
+        // const path=appDir+`/files/${user}/${image.imageName}`
+        // fs.unlink(path, err => {
+        //     if (err) res.status(400).send(err);
+        //     else {
+        //         Image.findOneAndDelete({ _id: imgId }, (err, doc) => {
+        //             if (err) res.status(400).send(err);
+        //             else res.json({ message: "Törölve!" });
+        //         })
+        //     }
+        // })
+
+    }
+
+
+
+
+
+
+
+
+    // res.send("Hiba!");
+
+
+})
+
+
+
+
 
 module.exports = {
     fileUpload,
-    getFiles
+    getFiles,
+    deleteFile
 }

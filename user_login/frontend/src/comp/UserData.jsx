@@ -2,7 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect, useContext } from 'react';
 import Notify from '../Toasts';
 import UserContext from './context/UserContext';
+import ImageContext from './context/ImageContext';
 import ReactModal from 'react-modal';
+import Confirm from '../Confirm';
 
 function UserData() {
 
@@ -12,6 +14,12 @@ function UserData() {
     const token = localStorage.getItem('usertoken');
 
     const { logout } = useContext(UserContext);
+
+    const {
+        imgUpdate,
+        deleteModalOpen, setDeleteModalOpen,
+        imgDelete
+    } = useContext(ImageContext);
 
 
     useEffect(() => {
@@ -60,7 +68,6 @@ function UserData() {
         // console.log(userImages);
     }, [])
 
-    const [isOpen, setIsOpen] = useState(false);
 
     const modalStyle = {
         overlay: {
@@ -95,17 +102,25 @@ function UserData() {
             {/* <div className='grid grid-flow-row'> */}
             <div className='grid grid-flow-col'>
                 {userImages && userImages.length > 0 && userImages.map((image, index) => (
-                    <div className="card w-96 bg-base-100 shadow-xl">
-                        <figure><img key={index} src={encodeURI(`http://localhost:8000/files/${UserData?.username}/${image.imageName}`)} /></figure>
+                    <div key={index} className="card w-96 bg-base-100 shadow-xl">
+                        <figure><img src={encodeURI(`http://localhost:8000/files/${UserData?.username}/${image.imageName}`)} /></figure>
                         <div className="card-body">
+                            <p>{image._id}</p>
                             <div className="card-actions justify-end">
-                                <button className="btn btn-primary">Törlés</button>
+                                <button onClick={() => setDeleteModalOpen(true)} className='btn btn-primary'>Törlés</button>
+
                             </div>
                         </div>
                     </div>
                 ))}
             </div>
             {/* </div> */}
+
+
+            {
+                deleteModalOpen &&
+                <Confirm />
+            }
 
 
 

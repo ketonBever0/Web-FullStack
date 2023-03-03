@@ -2,6 +2,7 @@ import { Toaster } from 'react-hot-toast'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import './App.css'
+import { ImageProvider } from './comp/context/ImageContext'
 import { UserProvider } from './comp/context/UserContext'
 import FileUpload from './comp/FileUpload'
 import Header from './comp/Header'
@@ -16,24 +17,27 @@ function App() {
 
   return (
     <UserProvider>
+      <ImageProvider>
 
-      <div className='container ml-10'>
-        <h1 className='text-3xl font-bold'>User login Frontend</h1>
-        {/* <Header headerText={"Fejléc"} /> */}
-        <Router>
-          <Menu />
-          <Routes>
-            <Route path='*' element={<Main />} />
-            <Route path='/' element={<Main />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/userdata' element={<UserData />} />
-            <Route path='/fileupload' element={<FileUpload />} />
-          </Routes>
-        </Router>
-      </div>
+        <div className='container ml-10'>
+          <h1 className='text-3xl font-bold'>User login Frontend</h1>
+          {/* <Header headerText={"Fejléc"} /> */}
+          <Router>
+            <Menu />
+            <Routes>
+              <Route path='*' element={<Main />} />
+              <Route path='/' element={<Main />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/register' element={<Register />} />
+              <Route path='/userdata' element={<UserData />} />
+              <Route path='/fileupload' element={<FileUpload />} />
+            </Routes>
+          </Router>
+        </div>
 
-      <Toaster />
+        <Toaster />
+
+      </ImageProvider>
     </UserProvider>
   )
 }
