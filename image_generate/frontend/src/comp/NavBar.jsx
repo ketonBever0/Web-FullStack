@@ -51,7 +51,7 @@ function NavBar() {
             <div className="flex flex-1 items-center justify-end md:justify-between">
                 <nav aria-label="Site Nav" className="hidden md:block">
                     <ul className="flex items-center gap-6 text-sm">
-                        <li><Link className="transition hover:text-gray-500/75 p-5 rounded hover:bg-neutral" to={"/generateimage"}>Image Generator</Link></li>
+                        <li><Link className="hover:text-gray-500/75 p-5 rounded hover:bg-neutral" to={"/generateimage"}>Image Generator</Link></li>
                         {/* <li><a className="text-gray-500 transition hover:text-gray-500/75" href="/">About</a></li> */}
                     </ul>
                 </nav>
