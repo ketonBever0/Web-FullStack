@@ -29,11 +29,15 @@ const fileUpload = (asyncHandler(async (req, res) => {
             // console.log(userPath);
             fs.writeFile(userPath + req.files[prop].name, req.files[prop].data, err => { err && console.log(err) });
             try {
-                await Image.create({
-                    userid: req.user._id,
-                    imageName: req.files[prop].name
-                })
+                if (!fs.existsSync(userPath + req.files[prop].name)) {
+                    await Image.create({
+                        userid: req.user._id,
+                        imageName: req.files[prop].name
+                    })
+                }
+                else throw new Error("Nem lehetett fájlrendszerbe írni!");
             } catch (err) {
+                console.log(err);
                 throw new Error(`Már van ${req.files[prop].name} nevű fájl!`)
             }
         }
@@ -61,7 +65,7 @@ const deleteFile = asyncHandler(async (req, res) => {
 
     console.log(imgId);
 
-    const image = await Image.findById(imgObjectId);
+    const image = await Image.findById(imgId);
 
     console.log(image)
 
@@ -69,16 +73,16 @@ const deleteFile = asyncHandler(async (req, res) => {
     else {
 
 
-        // const path=appDir+`/files/${user}/${image.imageName}`
-        // fs.unlink(path, err => {
-        //     if (err) res.status(400).send(err);
-        //     else {
-        //         Image.findOneAndDelete({ _id: imgId }, (err, doc) => {
-        //             if (err) res.status(400).send(err);
-        //             else res.json({ message: "Törölve!" });
-        //         })
-        //     }
-        // })
+        const path = appDir + `/files/${req.user.username}/${image.imageName}`
+        fs.unlink(path, err => {
+            if (err) res.status(400).send(err);
+            else {
+                Image.findOneAndDelete({ _id: imgId }, (err, doc) => {
+                    if (err) res.status(400).send(err);
+                    else res.json({ message: "Törölve!" });
+                })
+            }
+        })
 
     }
 

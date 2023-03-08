@@ -8,8 +8,7 @@ const imageSchema = new mongoose.Schema({
     imageName: {
         type: String,
         minLength: 5,
-        required: [true, "Meg kell adni a fájl nevét!"],
-        unique: true
+        required: [true, "Meg kell adni a fájl nevét!"]
     }
 });
 
