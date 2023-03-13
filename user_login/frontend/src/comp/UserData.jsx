@@ -4,7 +4,7 @@ import Notify from '../Toasts';
 import UserContext from './context/UserContext';
 import ImageContext from './context/ImageContext';
 import ReactModal from 'react-modal';
-import Confirm from '../Confirm';
+import { confirm } from 'react-confirm-box';
 
 function UserData() {
 
@@ -16,7 +16,7 @@ function UserData() {
     const { logout } = useContext(UserContext);
 
     const {
-        imgUpdate,
+        imgUpdate, imgRefresh,
         deleteModalOpen, setDeleteModalOpen,
         imgDelete
     } = useContext(ImageContext);
@@ -66,28 +66,33 @@ function UserData() {
             .then(data => setUserImages(data))
             .catch(err => console.log(err));
         // console.log(userImages);
-    }, [])
+    }, [imgRefresh])
 
 
-    const modalStyle = {
-        overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.75)'
-        },
-        content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-            backgroundColor: "black",
-            color: "white"
-        },
+    const deleteConfirmOptions = {
+        closeOnOverlayClick: true,
+        render: (message, onConfirm, onCancel) => {
+            return (
+                <div className='bg-info p-5 border rounded' style={{ position: "fixed", left: "40rem", top: "20rem", height: "fit-content" }}>
+                    <h1 className='mb-5'>{message}</h1>
+                    <div className="d-flex justify-content-around">
+                        <button className='btn btn-danger p-3' onClick={onConfirm}>Igen</button>
+                        <button className='btn btn-primary p-3' onClick={onCancel}>Nem</button>
+                    </div>
+                </div>
+            );
+        }
     };
 
 
-    const openModal = () => setIsOpen(true);
-    const closeModal = () => setIsOpen(false);
+    const handleDelete = async (imgId) => {
+
+        if (await confirm("Biztos törli a képet?", deleteConfirmOptions)) {
+            imgDelete(imgId);
+        }
+
+    }
+
 
 
 
@@ -107,7 +112,7 @@ function UserData() {
                         <div className="card-body">
                             <p>{image._id}</p>
                             <div className="card-actions justify-end">
-                                <button onClick={() => setDeleteModalOpen(true)} className='btn btn-primary'>Törlés</button>
+                                <button onClick={() => handleDelete(image._id)} className='btn btn-primary'>Törlés</button>
 
                             </div>
                         </div>
@@ -117,13 +122,6 @@ function UserData() {
             {/* </div> */}
 
 
-            {
-                deleteModalOpen &&
-                <Confirm />
-            }
-
-
-
         </div>
 
 
@@ -131,4 +129,4 @@ function UserData() {
     )
 }
 
-export default UserData
+export default UserData;

@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import Notify from "../../Toasts";
 
 
 const ImageContext = createContext();
@@ -40,22 +41,23 @@ export const ImageProvider = ({ children }) => {
     // }, []);
 
 
-    const imgUpdate = prev => setImgRefresh(!prev);
+    const imgUpdate = () => setImgRefresh(prev => !prev);
 
 
-    const imgDelete = (imgId ,user) => {
-        fetch(`http://localhost:8000/files/images}`, {
+    const imgDelete = (imgId) => {
+        fetch(`http://localhost:8000/api/files/delete`, {
             method: 'DELETE',
             headers: {
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({
-                imgId: imgId,
-                user: user
+                imgId: imgId
             })
         })
-            .then(res => res.json)
+            .then(res => { res.json; if (res.status == 200) Notify.tSuccess("Sikeres törlés"); else Notify.tError("Hiba!"); })
             .catch(err => console.log(err));
+        imgUpdate();
     }
 
 
