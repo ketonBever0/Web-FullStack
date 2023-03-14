@@ -16,6 +16,7 @@ function UserData() {
     const { logout } = useContext(UserContext);
 
     const {
+        userImages,
         imgUpdate, imgRefresh,
         deleteModalOpen, setDeleteModalOpen,
         imgDelete
@@ -43,30 +44,15 @@ function UserData() {
                     logout();
                     navigate('/');
                 });
+            console.log("object");
         } else {
             logout();
             // Notify.tError("Jelentkezzen be");
             navigate('/login');
         }
-    }, []);
+    }, [imgRefresh, userImages]);
 
 
-
-    const [userImages, setUserImages] = useState([]);
-
-
-    useEffect(() => {
-        fetch('http://localhost:8000/api/files/get', {
-            headers: {
-                "Content-type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
-        })
-            .then(res => res.json())
-            .then(data => setUserImages(data))
-            .catch(err => console.log(err));
-        // console.log(userImages);
-    }, [imgRefresh])
 
 
     const deleteConfirmOptions = {
@@ -106,7 +92,7 @@ function UserData() {
             </div>
             {/* <div className='grid grid-flow-row'> */}
             <div className='grid grid-flow-col'>
-                {userImages && userImages.length > 0 && userImages.map((image, index) => (
+                {UserData && userImages && userImages.length > 0 && userImages.map((image, index) => (
                     <div key={index} className="card w-96 bg-base-100 shadow-xl">
                         <figure><img src={encodeURI(`http://localhost:8000/files/${UserData?.username}/${image.imageName}`)} /></figure>
                         <div className="card-body">

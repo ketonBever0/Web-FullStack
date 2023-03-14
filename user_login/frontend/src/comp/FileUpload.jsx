@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Notify from '../Toasts';
+import ImageContext from './context/ImageContext';
 
 function FileUpload() {
 
@@ -22,18 +23,10 @@ function FileUpload() {
         ])
     }
 
-    const sendData = (data) => {
-        fetch('http://localhost:8000/api/files/upload', {
-            method: 'POST',
-            headers: {
-                "Authorization": `Bearer ${token}`
-            },
-            body: data
-        })
-            .then(res => res.json())
-            .then(valasz => Notify.tSuccess(valasz.message))
-            .catch(err => Notify.tError(err));
-    }
+    const {
+        uploadFiles
+    } = useContext(ImageContext);
+
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -42,8 +35,7 @@ function FileUpload() {
         // for (let i = 0; i < images.length; i++) {
         //     formData.append("file" + i, images[i])
         // }
-        sendData(formData);
-        setImages([]);
+        uploadFiles(formData);
     }
 
 

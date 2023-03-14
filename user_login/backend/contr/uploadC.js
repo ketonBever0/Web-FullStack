@@ -19,6 +19,7 @@ const fileUpload = (asyncHandler(async (req, res) => {
 
         // console.log(req.user.username + " feltöltött");
 
+        const messages = [];
 
         for (prop in req.files) {
             var userPath = path + req.user.username + '/';
@@ -27,24 +28,24 @@ const fileUpload = (asyncHandler(async (req, res) => {
                 fs.mkdirSync(userPath, { recursive: true }, err => err && console.log(err));
             }
             // console.log(userPath);
-            fs.writeFile(userPath + req.files[prop].name, req.files[prop].data, err => { err && console.log(err) });
             try {
+                fs.writeFile(userPath + req.files[prop].name, req.files[prop].data, err => { err && console.log(err) });
                 if (!fs.existsSync(userPath + req.files[prop].name)) {
                     await Image.create({
                         userid: req.user._id,
                         imageName: req.files[prop].name
                     })
+                    res.json({ message: `${req.files[prop].name} feltöltve`, success: true });
                 }
                 else throw new Error("Nem lehetett fájlrendszerbe írni!");
             } catch (err) {
                 console.log(err);
-                throw new Error(`Már van ${req.files[prop].name} nevű fájl!`)
+                res.json({ message: `Már van ${req.files[prop].name} nevű fájl!`, success: false });
             }
         }
 
     }
     // res.send("<h2>Feltöltés</h2>")
-    res.json({ message: "Feltöltés kész!" });
 })
 );
 

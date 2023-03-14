@@ -14,55 +14,67 @@ export const ImageProvider = ({ children }) => {
 
     const token = localStorage.getItem('usertoken');
 
-    // useEffect(() => {
-    //     if (token) {
-    //         fetch('http://localhost:8000/api/user', {
-    //             method: 'GET',
-    //             headers: {
-    //                 "Content-type": "application/json",
-    //                 "Authorization": `Bearer ${token}`
-    //             }
-    //         })
-    //             .then(res => res.json())
-    //             .then(data => {
-    //                 if (!data.message) {
-    //                     setUserData(data)
-
-    //                 } else {
-
-    //                     // Notify.tError("Lejárt a munkamenet! Lépjen be újra");
-
-    //                 }
-    //             })
-    //             .catch(err => console.log(err));
-    //     } else {
-
-    //     }
-    // }, []);
 
 
     const imgUpdate = () => setImgRefresh(prev => !prev);
 
 
-    const imgDelete = (imgId) => {
-        fetch(`http://localhost:8000/api/files/delete`, {
-            method: 'DELETE',
+    const [userImages, setUserImages] = useState([]);
+
+
+    useEffect(() => {
+        setUserImages([]);
+        fetch('http://localhost:8000/api/files/get', {
             headers: {
-                'Content-type': 'application/json',
+                "Content-type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => setUserImages(data))
+            .catch(err => console.log(err));
+        // console.log(userImages);
+    }, [imgRefresh])
+
+
+    const uploadFiles = (data) => {
+        fetch('http://localhost:8000/api/files/upload', {
+            method: 'POST',
+            headers: {
                 "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify({
-                imgId: imgId
-            })
+            body: data
         })
-            .then(res => { res.json; if (res.status == 200) Notify.tSuccess("Sikeres törlés"); else Notify.tError("Hiba!"); })
-            .catch(err => console.log(err));
+            .then(res => res.json())
+            .then(valasz => Notify.tSuccess(valasz.message))
+            .catch(err => Notify.tError(err));
         imgUpdate();
+    }
+
+
+    const imgDelete = async (imgId) => {
+        if (token) {
+            await fetch(`http://localhost:8000/api/files/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json',
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    imgId: imgId
+                })
+            })
+                .then(res => { res.json; if (res.status == 200) Notify.tSuccess("Sikeres törlés"); else Notify.tError("Hiba!"); })
+                .catch(err => console.log(err));
+            imgUpdate();
+        }
     }
 
 
 
     return <ImageContext.Provider value={{
+        userImages,
+        uploadFiles,
         imgRefresh, imgUpdate,
         deleteModalOpen, setDeleteModalOpen,
         imgDelete
