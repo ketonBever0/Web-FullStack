@@ -19,7 +19,7 @@ export default function RootLayout({
   var userToken: Boolean = false;
 
   return (
-    <html lang="en">
+    <html lang="en" data-theme="oldal">
       <body className={inter.className}>
         <nav>
           <div className="navbar bg-base-100">
@@ -35,7 +35,7 @@ export default function RootLayout({
                   <div className="dropdown dropdown-end">
 
                     <Link href={"/signup"} className='btn' >Sign Up</Link>
-                    <Link href={"/signin"} className='btn' >Sign In</Link>
+                    <Link href={"/signin"} className='btn bg-ecru-600 text-cornell_red-300' >Sign In</Link>
 
                   </div>
                   :
